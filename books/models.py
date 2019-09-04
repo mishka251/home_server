@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 # Create your models here.
 
 
@@ -15,5 +15,5 @@ class BookGenre(models.Model):
 class Book(models.Model):
     name = models.CharField(max_length=100)
     author = models.ForeignKey(Author, on_delete=models.PROTECT)
-    file_path = models.FilePathField()
+    file_path = models.FilePathField(path=settings.BOOKS_HOME_DIR, recursive=True)
     genres = models.ManyToManyField(BookGenre)

@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from books.views import BookListView
+from django.template.response import TemplateResponse
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('books/', BookListView.as_view()),
+    path('', lambda req: TemplateResponse(req, "base.html"))
 ]

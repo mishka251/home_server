@@ -1,0 +1,18 @@
+{%  extends "base.html" %}
+
+{% block body %}
+
+<div class = "books">
+
+<ul>
+    {% for book in books %}
+     <li>
+     <span> {{ book.author }}</span>
+     <span>{{ book.name }} </span>
+     </li>
+
+    {% endfor %}
+</ul>
+</div>
+
+{%  endblock %}
