@@ -2,17 +2,17 @@
 
 {% block body %}
 
-<div class = "books">
+<div class="books">
 
-<ul>
-    {% for book in books %}
-     <li>
-     <span> {{ book.author }}</span>
-     <span>{{ book.name }} </span>
-     </li>
+    <ul>
+        {% for book in books %}
+        <li>
+            <span> Автор: {{ book.author.name }} {{ book.author.surname }}</span>
+            <span> Название: {{ book.name }} </span>
+        </li>
 
-    {% endfor %}
-</ul>
+        {% endfor %}
+    </ul>
 </div>
 
 {%  endblock %}
