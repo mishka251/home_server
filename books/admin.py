@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import  Author, Book, BookGenre
+from .models import  Author, BookInfo, BookGenre
 # Register your models here.
 
 
-@admin.register(Book)
+@admin.register(BookInfo)
 class AdminBook(admin.ModelAdmin):
     pass
 

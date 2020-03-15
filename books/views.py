@@ -2,13 +2,13 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.views import View
-from books.models import Book, BookGenre, Author
+from books.models import BookInfo, BookGenre, Author
 from django.template.response import TemplateResponse
 
 class BookListView(View):
 
     def get(self, request):
-        objects = Book.objects.all()
+        objects = BookInfo.objects.all()
 
         template = "book_list.html"
 
@@ -18,7 +18,7 @@ class BookListView(View):
 class BookObjectView(View):
 
     def get(self, request, pk):
-        object = Book.objects.get(pk=pk)
+        object = BookInfo.objects.get(pk=pk)
 
         template = "book.html"
 
