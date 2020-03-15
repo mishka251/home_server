@@ -1,25 +1,44 @@
-from django.shortcuts import render
+from django.contrib.auth.models import User, Group
+from rest_framework import generics
+from rest_framework.decorators import api_view
+from rest_framework.reverse import reverse
+from rest_framework.response import Response
+from books.serializers import UserSerializer, GroupSerializer
 
-# Create your views here.
-from django.views import View
-from books.models import BookInfo, BookGenre, Author
-from django.template.response import TemplateResponse
+@api_view(['GET'])
+def api_root(request, format=None):
+    """
+    The entry endpoint of our API.
+    """
+    return Response({
+        'users': reverse('user-list', request=request),
+        'groups': reverse('group-list', request=request),
+    })
 
-class BookListView(View):
+class UserList(generics.ListCreateAPIView):
+    """
+    API endpoint that represents a list of users.
+    """
+    model = User
+    serializer_class = UserSerializer
 
-    def get(self, request):
-        objects = BookInfo.objects.all()
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint that represents a single user.
+    """
+    model = User
+    serializer_class = UserSerializer
 
-        template = "book_list.html"
+class GroupList(generics.ListCreateAPIView):
+    """
+    API endpoint that represents a list of groups.
+    """
+    model = Group
+    serializer_class = GroupSerializer
 
-        return TemplateResponse(request, template, {'books':objects})
-
-
-class BookObjectView(View):
-
-    def get(self, request, pk):
-        object = BookInfo.objects.get(pk=pk)
-
-        template = "book.html"
-
-        return TemplateResponse(request, template, {'books': object})
+class GroupDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint that represents a single group.
+    """
+    model = Group
+    serializer_class = GroupSerializer
