@@ -21,7 +21,7 @@ cryptography==2.7
 daphne==2.3.0
 defusedxml==0.6.0
 diff-match-patch==20181111
-Django==2.2.3
+Django==2.2.13
 django-appconf==1.0.3
 django-axes==5.0.9
 django-braces==1.13.0
