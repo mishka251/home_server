@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'books',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 BOOKS_HOME_DIR = ''#корневая директория библиотеки
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGINATE_BY': 10
+}
