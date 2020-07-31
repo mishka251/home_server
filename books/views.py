@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User, Group
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
+from django.shortcuts import render
 from rest_framework import viewsets, serializers
 from rest_framework import permissions
 from books.serializers import UserSerializer, GroupSerializer, BookEditSerializer, BookUploadSerializer, \
@@ -51,9 +52,6 @@ class AuthorView(viewsets.ModelViewSet):
     serializer_class = AuthorSerializer
 
 
-
-
-
 def download(request):
     ids = request.GET.get('books', [])
     if ids:
@@ -69,6 +67,7 @@ def download(request):
     zip_response.close()
     return HttpResponse(zip_response)
 
+
 # class Functions(viewsets.GenericViewSet):
 #     pass
 
@@ -76,3 +75,7 @@ def download(request):
 #     queryset = BookFile.objects.all()
 #     serializer_class = BookSerializer
 #     permission_classes = []
+
+
+def index(request: HttpRequest):
+    return render(request, 'vue-main.html')

@@ -1,0 +1,41 @@
+{
+  "name": "home_server",
+  "version": "1.0.0",
+  "description": "Домашний медиа-сервер\r ТЕСТОВАЯ ВЕРСИЯ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js --colors --progress",
+    "watch": "webpack --watch --config webpack.config.js --colors --progress"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mishka251/home_server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mishka251/home_server/issues"
+  },
+  "homepage": "https://github.com/mishka251/home_server#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bootstrap": "^4.5.0",
+    "bootstrap-vue": "^2.16.0",
+    "css-loader": "^4.2.0",
+    "popper": "^1.0.1",
+    "style-loader": "^1.2.1",
+    "ts-loader": "^8.0.1",
+    "typescript": "^3.9.7",
+    "vue": "^2.6.11",
+    "vue-class-component": "^7.2.5",
+    "vue-cli": "^2.9.6",
+    "vue-loader": "^15.9.3",
+    "vue-property-decorator": "^9.0.0",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.44.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.12"
+  }
+}
