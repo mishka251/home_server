@@ -1,13 +1,21 @@
 <template>
     <div>
         Hello
+        <BooksList
+        get-items-url="/api/v1/books/"
+        put-item-url="/api/v1/books/"
+        ></BooksList>
     </div>
 </template>
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-
-    @Component
+import BooksList from './BooksList.vue';
+    @Component({
+        components:{
+            BooksList,
+        }
+    })
     export default class Main extends Vue {
 
     };

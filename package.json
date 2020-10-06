@@ -27,6 +27,7 @@
     "style-loader": "^1.2.1",
     "ts-loader": "^8.0.1",
     "typescript": "^3.9.7",
+    "vee-validate": "^3.3.9",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.5",
     "vue-cli": "^2.9.6",
@@ -36,6 +37,9 @@
     "webpack": "^4.44.1"
   },
   "devDependencies": {
+    "@flowjs/flow.js": "^2.14.1",
+    "@types/flowjs": "^2.13.4",
+    "flowjs": "^1.0.0",
     "webpack-cli": "^3.3.12"
   }
 }
