@@ -20,4 +20,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('download/', views.download),
     path('api/v1/upload/', views.load_book),
+    path('authors/<int:author_id>', views.author),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Main</title>
+    <title>Author</title>
     {% load static %}
-    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'author.js' %}"></script>
 </head>
 <body>
-<div id="vue-main">
-    Hello
+<div id="vue-main"
+data-id="{{ id }}">
 </div>
 </body>
 </html>

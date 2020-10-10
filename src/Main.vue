@@ -1,6 +1,6 @@
 <template>
     <div>
-        Hello
+
         <BooksList
         get-items-url="/api/v1/books/"
         put-item-url="/api/v1/books/"

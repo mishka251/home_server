@@ -48,11 +48,14 @@
                     :items="items"
                     :fields="fields"
             >
-
+                <template v-slot:cell(author)="data">
+                    <a :href="'/authors/'+data.item.author.id">{{ data.item.author['__str__'] }}</a>
+                </template>
                 <template v-slot:cell(file)="data">
-                    <!--        {{ data.value.first }} {{ data.value.last }}-->
-                    <!--    {{data}}-->
                     <a :href="data.item.file">Скачать</a>
+                </template>
+                <template v-slot:cell(id)="data">
+                    <a :href="'/books/'+data.item.id">Редактировать</a>
                 </template>
             </BTable>
         </div>
@@ -64,9 +67,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Ref } from 'vue-property-decorator';
+import { Component, Prop, Vue, Ref, Watch } from 'vue-property-decorator';
 import { BTable, BTooltip, BvTableFieldArray } from 'bootstrap-vue';
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 interface BookInfo {
     author: string;
@@ -95,6 +98,9 @@ export default class BooksList extends Vue {
     @Prop({ default: () => ['.fb2', '.zip'] })
     possibleFileTypes!: string[];
 
+    @Prop({ default: null, type: Number })
+    author!: number;
+
     // @Prop()
     // filters!:any;
     items: BookInfo[] = [];
@@ -105,28 +111,53 @@ export default class BooksList extends Vue {
     @Ref('tooltipTarget')
     tooltipTarget!: HTMLElement;
 
-    fields: BvTableFieldArray = [
-        {
-            key: 'name',
-            label: 'Название',
-        },
-        {
-            key: 'author',
-            label: 'Автор',
-        },
-        {
-            key: 'file',
-            label: 'Ссылка',
-        },
-    ];
+
+    get fields(): BvTableFieldArray {
+        let fields = [
+            {
+                key: 'name',
+                label: 'Название',
+            },
+            {
+                key: 'author',
+                label: 'Автор',
+            },
+            {
+                key: 'file_type',
+                label: 'Формат',
+            },
+            {
+                key: 'size',
+                label: 'Размер файла (кб)',
+            },
+            {
+                key: 'file',
+                label: 'Ссылка',
+            },
+            {
+                key: 'id',
+                label: 'Редактирование',
+            },
+        ];
+        if (this.author != null) {
+            delete fields[1];
+        }
+        return fields;
+    }
 
     mounted(): void {
         this.isMounted = true;
         this.getBooks();
     }
 
+    @Watch('searchValue')
     getBooks() {
-        axios.get(this.getItemsUrl)
+        axios.get(this.getItemsUrl, {
+            params: {
+                name: this.searchValue,
+                author: this.author,
+            },
+        })
                 .then((response) => {
                     this.items = response.data;
                 })
@@ -164,8 +195,12 @@ export default class BooksList extends Vue {
                 'Content-Type': 'multipart/form-data',
             },
         })
-                .then((response) => {
+                .then((response: AxiosResponse<BookInfo[]>) => {
                     console.log(response);
+                    this.items = [
+                        ...this.items,
+                        ...response.data,
+                    ];
                 })
                 .catch((error: AxiosError) => {
                     console.error(error);

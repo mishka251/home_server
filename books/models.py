@@ -23,9 +23,12 @@ class BookGenre(models.Model):
 class FileTypes(models.Model):
     name = models.CharField(max_length=30)
 
+    def __str__(self):
+        return self.name
+
 
 class BookFile(models.Model):
-    #file_path = models.FilePathField(path=settings.BOOKS_HOME_DIR, recursive=True)
+    # file_path = models.FilePathField(path=settings.BOOKS_HOME_DIR, recursive=True)
     file_type = models.ForeignKey(FileTypes, on_delete=models.CASCADE, null=True)
     file = models.FileField(null=True)
     # size = models.DateField()
@@ -33,3 +36,4 @@ class BookFile(models.Model):
     author = models.ForeignKey(Author, on_delete=models.PROTECT, null=True, verbose_name='Автор')
     genres = models.ManyToManyField(BookGenre, verbose_name='Жанры')
     publish_year = models.IntegerField(null=True)
+    size = models.DecimalField(null=True, decimal_places=2, max_digits=10)

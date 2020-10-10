@@ -2,7 +2,8 @@ from typing import List
 
 from django.contrib.auth.models import User, Group
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.http import HttpResponse, HttpRequest
+from django.db.models import QuerySet
+from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render
 from rest_framework import viewsets, serializers
 from rest_framework import permissions
@@ -47,6 +48,16 @@ class BooksList(viewsets.ModelViewSet):
         elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
             return BookEditSerializer
 
+    def get_queryset(self):
+        queryset: QuerySet[BookFile] = self.queryset
+        title = self.request.query_params.get('name', None)
+        author = self.request.query_params.get('author', None)
+        if title:
+            queryset = queryset.filter(name__contains=title)
+        if author:
+            queryset = queryset.filter(author_id=author)
+        return queryset
+
 
 class GenresView(viewsets.ModelViewSet):
     queryset = BookGenre.objects.all()
@@ -83,17 +94,17 @@ def download(request):
 #     permission_classes = []
 
 
-def is_ebook(file:InMemoryUploadedFile)->bool:
+def is_ebook(file: InMemoryUploadedFile) -> bool:
     support_types = ['fb2']
     return file.name.rsplit('.', 1)[1] in support_types
 
 
-def is_archive(file:InMemoryUploadedFile)->bool:
+def is_archive(file: InMemoryUploadedFile) -> bool:
     support_types = ['zip', '7z']
     return file.name.rsplit('.', 1)[1] in support_types
 
 
-def save_file(file:InMemoryUploadedFile)->List[str]:
+def save_file(file: InMemoryUploadedFile) -> List[str]:
     root = settings.MEDIA_ROOT
     if is_ebook(file):
         path = default_storage.save(file.name, ContentFile(file.read()))
@@ -109,27 +120,35 @@ def save_file(file:InMemoryUploadedFile)->List[str]:
             filepaths.append(filepath)
         return filepaths
 
+
 @csrf_exempt
 def load_book(request: HttpRequest):
     serializer = BookUploadSerializer(None, None)
-    file:InMemoryUploadedFile = request.FILES['file']
-    # if is_ebook(file):
-    #     book = serializer.create(file)
-    #     print(book)
-    # elif is_archive(file):
-    #     zip = zipfile.ZipFile(file, 'r')
-    #     for file_name in zip.infolist():
-    #         content = zip.read(file_name)
-    #         file = InMemoryUploadedFile(content, None, file_name.filename, None, len(content), 'utf-8')
-    #         book = serializer.create(file)
-    #         print(book)
+    file: InMemoryUploadedFile = request.FILES['file']
+    author_id = request.GET.get('author', None)
+    new_books = []
     filepaths = save_file(file)
     for filepath in filepaths:
-        book = serializer.create(filepath)
+        book = serializer.create(filepath, author_id)
         print(book)
-    return HttpResponse(200)
-    pass
+        new_books.append(serializer.to_representation(book))
+    return JsonResponse(new_books, safe=False)
 
 
 def index(request: HttpRequest):
     return render(request, 'vue-main.html')
+
+
+def author(request: HttpRequest, author_id: int):
+    return render(request, 'author.html', {'id': author_id})
+
+
+def authors_autocomplete(request):
+    authors: QuerySet[Author] = Author.objects.all()
+    res = []
+    for author in authors:
+        res.append({
+            'id': author.id,
+            'caption': str(author)
+        })
+    return JsonResponse(res, safe=False)

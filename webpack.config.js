@@ -5,12 +5,13 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        main: 'index.ts'
+        main: 'main.ts',
+        author: 'author.ts',
     },
     mode: 'development',
     output: {
         path: path.resolve(__dirname, 'static'),
-        filename: 'bundle.js'
+        filename: '[name].js'
     },
     module: {
         rules: [
