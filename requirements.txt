@@ -17,7 +17,7 @@ channels-redis==2.4.0
 chardet==3.0.4
 constantly==15.1.0
 coverage==4.5.2
-cryptography==2.7
+cryptography==3.2
 daphne==2.3.0
 defusedxml==0.6.0
 diff-match-patch==20181111
