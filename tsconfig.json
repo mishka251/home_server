@@ -10,7 +10,8 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "types": [
-      "vue"
+      "vue",
+      "node",
     ]
   }
 }

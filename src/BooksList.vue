@@ -48,6 +48,15 @@
                     :items="items"
                     :fields="fields"
             >
+                <template v-slot:cell(name)="data">
+                    <span v-if="mobile">
+                         <a :href="'/authors/'+data.item.author.id">{{ data.item.name }}</a>
+                        <a :href="data.item.file"><i class="fa fa-download"></i></a>
+
+
+                    </span>
+                    <span v-else>{{ data.item.name }}</span>
+                </template>
                 <template v-slot:cell(author)="data">
                     <a :href="'/authors/'+data.item.author.id">{{ data.item.author['__str__'] }}</a>
                 </template>
@@ -70,6 +79,7 @@
 import { Component, Prop, Vue, Ref, Watch } from 'vue-property-decorator';
 import { BTable, BTooltip, BvTableFieldArray } from 'bootstrap-vue';
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { isMobile } from "./utils.ts";
 
 interface BookInfo {
     author: string;
@@ -101,6 +111,10 @@ export default class BooksList extends Vue {
     @Prop({ default: null, type: Number })
     author!: number;
 
+    get h() {
+        return window.innerWidth;
+    }
+
     // @Prop()
     // filters!:any;
     items: BookInfo[] = [];
@@ -111,6 +125,9 @@ export default class BooksList extends Vue {
     @Ref('tooltipTarget')
     tooltipTarget!: HTMLElement;
 
+    get mobile(): boolean {
+        return isMobile();
+    }
 
     get fields(): BvTableFieldArray {
         let fields = [
@@ -118,27 +135,34 @@ export default class BooksList extends Vue {
                 key: 'name',
                 label: 'Название',
             },
-            {
-                key: 'author',
-                label: 'Автор',
-            },
-            {
-                key: 'file_type',
-                label: 'Формат',
-            },
-            {
-                key: 'size',
-                label: 'Размер файла (кб)',
-            },
-            {
-                key: 'file',
-                label: 'Ссылка',
-            },
-            {
-                key: 'id',
-                label: 'Редактирование',
-            },
         ];
+        console.log(isMobile());
+        if (!isMobile()) {
+            fields = [
+                ...fields,
+                {
+                    key: 'author',
+                    label: 'Автор',
+                },
+                {
+                    key: 'file_type',
+                    label: 'Формат',
+                },
+                {
+                    key: 'size',
+                    label: 'Размер файла (кб)',
+                },
+                {
+                    key: 'file',
+                    label: 'Ссылка',
+                },
+                {
+                    key: 'id',
+                    label: 'Редактирование',
+                },
+            ]
+        }
+
         if (this.author != null) {
             delete fields[1];
         }
