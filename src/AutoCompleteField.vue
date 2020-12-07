@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Ref } from 'vue-property-decorator';
+import { Component, Prop, Vue, Ref, PropSync } from 'vue-property-decorator';
 // import { BTable, BTooltip, BvTableFieldArray } from 'bootstrap-vue';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
@@ -40,12 +40,13 @@ export default class AutoCompleteField extends Vue {
 
     options: Option[] = [];
 
-    value: Option | null = null;
+    @PropSync('value')
+    _value!: Option | null;
 
     isVisible:boolean=false;
 
     get valueCaption(): string {
-        return this.value ? this.value.caption : '';
+        return this._value ? this._value.caption : '';
     }
 
     getOptions() {
@@ -66,7 +67,7 @@ export default class AutoCompleteField extends Vue {
     }
 
     selectOption(option:Option):void{
-        this.value=option;
+        this._value=option;
         this.hideAutocomplete();
     }
 }

@@ -29,7 +29,12 @@ class BookGenreSerializer(serializers.ModelSerializer):
 class BookAuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ['id', '__str__']
+        fields = ['id', 'caption']
+
+    caption = serializers.SerializerMethodField()
+
+    def get_caption(self, obj):
+        return str(obj)
 
 
 class BookUploadSerializer(serializers.ModelSerializer):

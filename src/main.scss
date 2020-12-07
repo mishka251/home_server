@@ -11,3 +11,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
     font-size: 50px;
   }
 }
+
+.vbt-autcomplete-list {
+    padding-top: 5px;
+    position: absolute;
+    max-height: 350px;
+    overflow-y: auto;
+    z-index: 999;
+  }

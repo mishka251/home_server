@@ -50,10 +50,8 @@
             >
                 <template v-slot:cell(name)="data">
                     <span v-if="mobile">
-                         <a :href="'/authors/'+data.item.author.id">{{ data.item.name }}</a>
                         <a :href="data.item.file"><i class="fa fa-download"></i></a>
-
-
+                        <a :href="'/books/'+data.item.id">{{ data.item.name }}</a>
                     </span>
                     <span v-else>{{ data.item.name }}</span>
                 </template>
@@ -135,15 +133,15 @@ export default class BooksList extends Vue {
                 key: 'name',
                 label: 'Название',
             },
+            {
+                key: 'author',
+                label: 'Автор',
+            },
         ];
         console.log(isMobile());
         if (!isMobile()) {
             fields = [
                 ...fields,
-                {
-                    key: 'author',
-                    label: 'Автор',
-                },
                 {
                     key: 'file_type',
                     label: 'Формат',

@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Author</title>
+{% extends 'base.html' %}
+{% block title %} Автор {% endblock %}
+{%  block extra_head %}
     {% load static %}
     <script src="{% static 'author.js' %}"></script>
-</head>
-<body>
-<div id="vue-main"
-data-id="{{ id }}">
-</div>
-</body>
-</html>
+{% endblock %}
+{% block body %}
+    {{ block.super }}
+    <div id="vue-main"
+         data-id="{{ id }}">
+    </div>
+{% endblock %}

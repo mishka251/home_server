@@ -2,7 +2,7 @@ from typing import List
 
 from django.contrib.auth.models import User, Group
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Q
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render
 from rest_framework import viewsets, serializers
@@ -16,6 +16,7 @@ import os.path
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from rest_framework.decorators import action
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -67,6 +68,19 @@ class GenresView(viewsets.ModelViewSet):
 class AuthorView(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
+
+    @action(methods=['GET'], detail=False)
+    def autocomplete(self, request):
+        authors: QuerySet[Author] = self.queryset
+        search = request.GET.get('search', '')
+        authors = authors.filter(Q(name__startswith=search)|Q(surname__startswith=search))
+        res = []
+        for author in authors:
+            res.append({
+                'id': author.id,
+                'caption': str(author)
+            })
+        return JsonResponse(res, safe=False)
 
 
 def download(request):
@@ -143,12 +157,6 @@ def author(request: HttpRequest, author_id: int):
     return render(request, 'author.html', {'id': author_id})
 
 
-def authors_autocomplete(request):
-    authors: QuerySet[Author] = Author.objects.all()
-    res = []
-    for author in authors:
-        res.append({
-            'id': author.id,
-            'caption': str(author)
-        })
-    return JsonResponse(res, safe=False)
+def book(request: HttpRequest, book_id: int):
+    return render(request, 'book.html', {'id': book_id})
+

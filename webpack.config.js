@@ -7,6 +7,7 @@ module.exports = {
     entry: {
         main: 'main.ts',
         author: 'author.ts',
+        book: 'book.ts',
     },
     mode: 'development',
     output: {
@@ -77,7 +78,7 @@ module.exports = {
         // убедитесь что подключили плагин!
         new VueLoaderPlugin(),
         new MiniCssExtractPlugin({
-            filename: 'style.css',
+            filename: '[name].css',
         }),
     ],
 };

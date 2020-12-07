@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="ru-RU">
-<head>
-    <meta charset="UTF-8">
-    <title>Main</title>
+{% extends 'base.html' %}
+{% block title %} Main {% endblock %}
+{% block extra_head %}
     {% load static %}
     <script src="{% static 'main.js' %}"></script>
     <link href="{% static 'style.css' %}" rel="stylesheet">
-
-</head>
-<body>
-<div id="vue-main">
-    Hello
-</div>
-</body>
-</html>
+{% endblock %}
+{% block body %}
+    {{ block.super }}
+    <div id="vue-main">
+        Hello
+    </div>
+{% endblock %}

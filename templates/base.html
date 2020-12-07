@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %} {% endblock %}</title>
+{%  block extra_head %}
+{% endblock %}
 </head>
 <body>
-{% include "menu.html" %}
+{#{% include "menu.html" %}#}
 {% block body %} {% endblock %}
 </body>
 </html>
