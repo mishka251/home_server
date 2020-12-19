@@ -6,7 +6,7 @@
             @mouseout="active = false"
             @click="onClick"
     >
-       <span > {{data.caption}}</span>
+        <span> {{ data.caption }}</span>
     </button>
 </template>
 
@@ -14,13 +14,8 @@
 
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import Item from "./Item";
-import { BFormSelectOption } from 'bootstrap-vue'
 
-@Component({
-    components:{
-        BFormSelectOption,
-    }
-})
+@Component({})
 export default class ListItem extends Vue {
     @Prop()
     data!: Item;
@@ -43,7 +38,7 @@ export default class ListItem extends Vue {
     }
 
     @Emit('click')
-    onClick(){
+    onClick() {
         console.log('click');
         return this.data;
     }

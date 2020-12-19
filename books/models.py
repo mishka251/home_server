@@ -14,10 +14,11 @@ class Author(models.Model):
 
 
 class BookGenre(models.Model):
-    name = models.CharField(max_length=200, verbose_name='Название')
+    name = models.CharField(max_length=200, verbose_name='Название (параметр для авто заполнения жанра из файла)')
+    verbose_name = models.CharField(max_length=200, null=True, verbose_name='Название (человеко-читаемое)')
 
     def __str__(self):
-        return self.name
+        return self.verbose_name or self.name
 
 
 class FileTypes(models.Model):

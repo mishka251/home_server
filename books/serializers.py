@@ -23,7 +23,12 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class BookGenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookGenre
-        exclude = []
+        fields = ['id', 'caption']
+
+    caption = serializers.SerializerMethodField()
+
+    def get_caption(self, obj:BookGenre):
+        return str(obj)
 
 
 class BookAuthorSerializer(serializers.ModelSerializer):
@@ -75,6 +80,8 @@ class BookEditSerializer(serializers.ModelSerializer):
         exclude = []
 
     author = BookAuthorSerializer()
+    genres = BookGenreSerializer(many=True)
+
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:

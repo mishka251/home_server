@@ -1,15 +1,15 @@
 <template>
-<div class="list-group shadow">
-    <ListItem
-      v-for="(item, id) in data"
-      :key="id"
-      :data="item"
-      :background-variant="backgroundVariant"
-      :text-variant="textVariant"
-      @click="handleHit"
-    >
-    </ListItem>
-  </div>
+    <div class="list-group shadow">
+        <ListItem
+                v-for="(item, id) in data"
+                :key="id"
+                :data="item"
+                :background-variant="backgroundVariant"
+                :text-variant="textVariant"
+                @click="handleHit"
+        >
+        </ListItem>
+    </div>
 </template>
 
 <script lang="ts">
@@ -22,19 +22,19 @@ import Item from "./Item";
     components: { ListItem },
 })
 export default class List extends Vue {
-    @Prop({type:Array})
+    @Prop({ type: Array })
     data!: Item[];
 
-        @Prop({ type: String })
+    @Prop({ type: String })
     textVariant!: string;
 
-            @Prop({ type: String })
+    @Prop({ type: String })
     backgroundVariant!: string;
 
     @Emit('hit')
-     handleHit(item:Item) {
-      return item;
+    handleHit(item: Item) {
+        return item;
     }
-  }
+}
 
 </script>

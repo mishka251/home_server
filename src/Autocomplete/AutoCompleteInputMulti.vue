@@ -27,6 +27,15 @@
         >
 
         </List>
+
+        <List
+                :data="_value"
+                :background-variant="backgroundVariant"
+                :text-variant="textVariant"
+                @hit="handleHitSelected"
+        >
+
+        </List>
     </div>
 </template>
 
@@ -40,12 +49,12 @@ import axios, { AxiosResponse } from 'axios';
 @Component({
     components: { List },
 })
-export default class AutoCompleteInput extends Vue {
+export default class AutoCompleteInputMulti extends Vue {
     @Prop()
     size!: string;
 
     @PropSync('value')
-    _value!: Item | null;
+    _value!: Item[];
 
     @Prop({ type: String })
     dataUrl!: string;
@@ -54,10 +63,7 @@ export default class AutoCompleteInput extends Vue {
     label!: string;
 
     get placeholder(): string {
-        if (this._value) {
-            return this._value.caption;
-        }
-        return this.label;
+        return '';
     }
 
     @Prop()
@@ -75,9 +81,13 @@ export default class AutoCompleteInput extends Vue {
 
 
     handleHit(item: Item) {
-        this.inputValue = item.caption;
-        this._value = item;
+        this._value.push(item);
         this.isFocused = false
+    }
+
+    handleHitSelected(item: Item) {
+        this._value = this._value.filter((_item) => _item != item);
+        //this.isFocused = false
     }
 
     handleBlur(evt: any) {

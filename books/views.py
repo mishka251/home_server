@@ -64,6 +64,19 @@ class GenresView(viewsets.ModelViewSet):
     queryset = BookGenre.objects.all()
     serializer_class = GenreSerializer
 
+    @action(methods=['GET'], detail=False)
+    def autocomplete(self, request):
+        authors: QuerySet[Author] = self.queryset
+        search = request.GET.get('search', '')
+        authors = authors.filter(Q(name__startswith=search)|Q(verbose_name__startswith=search))
+        res = []
+        for author in authors:
+            res.append({
+                'id': author.id,
+                'caption': str(author)
+            })
+        return JsonResponse(res, safe=False)
+
 
 class AuthorView(viewsets.ModelViewSet):
     queryset = Author.objects.all()

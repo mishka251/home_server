@@ -1,4 +1,4 @@
 export default interface Item {
-    id:string;
-    caption:string;
+    id: string;
+    caption: string;
 }

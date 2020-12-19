@@ -11,8 +11,26 @@
             ></AutoCompleteInput>
         </div>
         <div>
+            Жанры
+            <AutoCompleteInputMulti
+            label="Жанры"
+            data-url="/api/v1/genres/autocomplete/"
+            :value.sync="book.genres"
+            >
+
+            </AutoCompleteInputMulti>
+        </div>
+        <div>
             <label for="name">Название</label>
             <input type="text" name="name" id="name" v-model="book.name">
+        </div>
+          <div>
+            <label for="publish_year">Год издания</label>
+            <input type="number" name="publish_year" id="publish_year" v-model="book.publish_year">
+        </div>
+          <div>
+            <label for="size">Размер (кб)</label>
+            <input type="number" name="size" id="size" v-model="book.size">
         </div>
 
     </div>
@@ -26,6 +44,7 @@ import { Component, Prop, Vue, Ref } from 'vue-property-decorator';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import AutoCompleteField from "./AutoCompleteField.vue";
 import AutoCompleteInput from "./Autocomplete/AutoCompleteInput.vue";
+import AutoCompleteInputMulti from './Autocomplete/AutoCompleteInputMulti.vue';
 
 interface Book{
     id: number;
@@ -44,6 +63,7 @@ interface Book{
 @Component({
     components:{
         AutoCompleteInput,
+        AutoCompleteInputMulti,
     }
 })
 export default class BookPage extends Vue {
