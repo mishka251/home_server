@@ -20,7 +20,7 @@
   "homepage": "https://github.com/mishka251/home_server#readme",
   "dependencies": {
     "@types/node": "^14.14.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.16.0",
     "css-loader": "^4.2.0",
