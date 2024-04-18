@@ -1,5 +1,5 @@
 ﻿asgiref==3.2.10
-Django==3.1.12
+Django==3.2.25
 djangorestframework==3.11.2
 ebookmeta==0.11.2
 lxml==4.6.3
